@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { BsGoogle } from 'react-icons/bs';
 import { BuiltInProviderType } from 'next-auth/providers/index';
 import SignInButton from '@/app/auth/signin/SignInButton';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/utils/authOptions';
 
 export default async function SignIn() {
   const providers = await getProviders();
