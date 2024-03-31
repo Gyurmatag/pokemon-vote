@@ -67,6 +67,4 @@ model Vote {
   pokemonId Int
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   pokemon   Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, pokemonId])
 }
