@@ -1,5 +1,5 @@
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -43,6 +43,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Vote          Vote[]
 }
 
 model VerificationToken {
@@ -51,4 +52,21 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Pokemon {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  image String
+  votes Vote[]
+}
+
+model Vote {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  pokemonId Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, pokemonId])
 }
