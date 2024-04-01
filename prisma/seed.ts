@@ -1,4 +1,5 @@
 import { db } from '@/prisma/index';
+import { Form, Move, Stat } from '@/types';
 
 async function main() {
   const basicPokemonData = await fetchBasicPokemonData();
@@ -12,15 +13,15 @@ async function main() {
         height: detailedData.height,
         weight: detailedData.weight,
         forms: {
-          create: detailedData.forms.map((form) => ({ name: form.name })),
+          create: detailedData.forms.map((form: Form) => ({ name: form.name })),
         },
         moves: {
-          create: detailedData.moves.map((move) => ({
+          create: detailedData.moves.map((move: Move) => ({
             name: move.name,
           })),
         },
         stats: {
-          create: detailedData.stats.map((stat) => ({
+          create: detailedData.stats.map((stat: Stat) => ({
             name: stat.stat.name,
             value: stat.base_stat,
           })),
