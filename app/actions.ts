@@ -5,8 +5,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 
 export async function voteOnPokemon(pokemonId: number) {
-  'use server';
-
   const session = await getServerSession(authOptions);
 
   await db.vote.create({
