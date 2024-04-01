@@ -4,6 +4,7 @@ import './globals.css';
 import SessionProvider from '@/components/SessionProvider';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
+import NavMenu from '@/components/NavMenu';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,7 +23,10 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <SessionProvider session={session}>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <NavMenu />
+          {children}
+        </body>
       </SessionProvider>
     </html>
   );
