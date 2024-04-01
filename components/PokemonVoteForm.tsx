@@ -23,8 +23,8 @@ export default async function PokemonVoteForm() {
     },
   });
 
-  function IconForStat(name) {
-    switch (name.name) {
+  function IconForStat({ name }: { name: string }) {
+    switch (name) {
       case 'hp':
         return <Heart className='h-5 w-5 text-red-500' />;
       case 'attack':
