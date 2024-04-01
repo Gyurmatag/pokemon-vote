@@ -31,21 +31,30 @@ export default async function Top10() {
   });
 
   return (
-    <main className='flex min-h-screen flex-col items-center px-24 py-10'>
-      <h1>The Top 10 Pokémon</h1>
-      <ul>
+    <main className='flex min-h-screen flex-col items-center px-4 py-10 md:px-24'>
+      <h1 className='mb-6 text-2xl font-semibold md:text-3xl'>
+        The Top 10 Pokémon
+      </h1>
+      <div className='grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         {topPokemons.map((pokemon) => (
-          <li key={pokemon.id}>
+          <div
+            key={pokemon.id}
+            className='flex flex-col items-center rounded-lg border bg-white p-4 shadow-sm'
+          >
             <Image
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               src={pokemon.image}
               alt={pokemon.name}
+              className='mb-2'
             />
-            <h2>{pokemon.name}</h2>
-          </li>
+            <h2 className='text-lg font-medium'>{pokemon.name}</h2>
+            <span className='text-sm text-gray-600'>
+              Votes: {pokemon.votes.length}
+            </span>
+          </div>
         ))}
-      </ul>
+      </div>
     </main>
   );
 }
