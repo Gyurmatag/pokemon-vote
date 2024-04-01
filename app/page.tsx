@@ -23,9 +23,7 @@ export default async function Home() {
   }
 
   const totalPokemon = await db.pokemon.count();
-
   const randomOffset = Math.floor(Math.random() * (totalPokemon - 2));
-
   const pokemons = await db.pokemon.findMany({
     take: 2,
     skip: randomOffset,
@@ -38,7 +36,6 @@ export default async function Home() {
 
   const vote = async (formData: FormData) => {
     'use server';
-
     const votedPokemonId = formData.get('vote');
     if (votedPokemonId) {
       await voteOnPokemon(formData);
@@ -48,7 +45,6 @@ export default async function Home() {
   };
 
   function IconForStat(name) {
-    console.log(name);
     switch (name.name) {
       case 'hp':
         return <Heart className='h-5 w-5 text-red-500' />;
@@ -68,38 +64,40 @@ export default async function Home() {
   }
 
   return (
-    <main className='flex min-h-screen flex-col items-center p-24'>
-      <h1 className='text-lg font-semibold'>Which Pokémon Do You Like More?</h1>
-      <form action={vote} className='flex w-full justify-center'>
+    <main className='flex min-h-screen flex-col items-center px-4 py-10 md:px-24'>
+      <h1 className='text-center text-lg font-semibold md:text-3xl'>
+        Which Pokémon Do You Like More?
+      </h1>
+      <form action={vote} className='flex w-full flex-wrap justify-center'>
         {pokemons.map(
           (
             pokemon: Pokemon & { forms: Form[]; moves: Move[]; stats: Stat[] }
           ) => (
             <div
               key={pokemon.id}
-              className='m-4 flex h-[500px] w-1/3 flex-col rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800'
+              className='m-4 flex h-full w-full flex-col rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 md:w-1/3'
             >
-              <div className='flex flex-col items-center p-4 sm:p-6'>
+              <div className='flex flex-col items-center p-3 sm:p-4 md:p-6'>
                 <Image
-                  width={120}
-                  height={120}
+                  width={100}
+                  height={100}
                   src={pokemon.image}
                   alt={pokemon.name}
-                  className='mb-3 h-28 w-28 rounded-full shadow-lg'
+                  className='mb-2 h-24 w-24 rounded-full shadow-lg sm:h-28 sm:w-28 md:mb-3 md:h-28 md:w-28'
                 />
-                <h5 className='mb-2 text-xl font-medium text-gray-900 dark:text-white'>
+                <h5 className='mb-1 text-lg font-medium text-gray-900 dark:text-white sm:text-xl md:mb-2'>
                   {pokemon.name}
                 </h5>
-                <span className='text-sm text-gray-500 dark:text-gray-400'>
+                <span className='text-xs text-gray-500 dark:text-gray-400 sm:text-sm'>
                   Height: {pokemon.height} dm
                 </span>
-                <span className='text-sm text-gray-500 dark:text-gray-400'>
+                <span className='text-xs text-gray-500 dark:text-gray-400 sm:text-sm'>
                   Weight: {pokemon.weight} hg
                 </span>
                 <Button
                   name='vote'
                   value={pokemon.id}
-                  className='mt-4 rounded px-6 py-2'
+                  className='mt-3 rounded px-4 py-1 sm:mt-4 sm:px-6 sm:py-2'
                 >
                   Vote
                 </Button>

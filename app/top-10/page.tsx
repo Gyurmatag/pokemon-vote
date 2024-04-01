@@ -31,7 +31,7 @@ export default async function Top10() {
   });
 
   return (
-    <main className='flex min-h-screen flex-col items-center p-24'>
+    <main className='flex min-h-screen flex-col items-center px-24 py-10'>
       <h1>The Top 10 Pokémon</h1>
       <ul>
         {topPokemons.map((pokemon) => (
