@@ -55,10 +55,37 @@ model VerificationToken {
 }
 
 model Pokemon {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  image String
-  votes Vote[]
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  image  String
+  height Float
+  weight Float
+  forms  Form[]
+  moves  Move[]
+  stats  Stat[]
+  votes  Vote[]
+}
+
+model Form {
+  id       Int     @id @default(autoincrement())
+  name     String
+  pokemon  Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId Int
+}
+
+model Move {
+  id       Int     @id @default(autoincrement())
+  name     String
+  pokemon  Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId Int
+}
+
+model Stat {
+  id       Int     @id @default(autoincrement())
+  name     String
+  value    Int
+  pokemon  Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId Int
 }
 
 model Vote {

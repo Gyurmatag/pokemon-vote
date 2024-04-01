@@ -4,10 +4,27 @@ async function main() {
   const basicPokemonData = await fetchBasicPokemonData();
   for (const basicData of basicPokemonData) {
     const detailedData = await fetchPokemonDetails(basicData.url);
+
     await db.pokemon.create({
       data: {
         name: detailedData.name,
         image: detailedData.sprites.front_default,
+        height: detailedData.height,
+        weight: detailedData.weight,
+        forms: {
+          create: detailedData.forms.map((form) => ({ name: form.name })),
+        },
+        moves: {
+          create: detailedData.moves.map((move) => ({
+            name: move.name,
+          })),
+        },
+        stats: {
+          create: detailedData.stats.map((stat) => ({
+            name: stat.stat.name,
+            value: stat.base_stat,
+          })),
+        },
       },
     });
   }
