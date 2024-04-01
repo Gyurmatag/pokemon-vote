@@ -11,17 +11,28 @@ import { Heart, Zap, Shield, Eye, Wind, Star } from 'lucide-react';
 import VoteButton from '@/components/VoteButton';
 
 export default async function PokemonVoteForm() {
-  const totalPokemon = await db.pokemon.count();
-  const randomOffset = Math.floor(Math.random() * (totalPokemon - 2));
-  const pokemons = await db.pokemon.findMany({
-    take: 2,
-    skip: randomOffset,
-    include: {
-      forms: true,
-      moves: true,
-      stats: true,
-    },
-  });
+  async function pickRandomPokemons(count: number) {
+    const itemCount = await db.pokemon.count();
+    const maxSkip = Math.max(0, itemCount - count);
+    const skip = Math.floor(Math.random() * maxSkip);
+
+    const orderByFields = ['id', 'name', 'height', 'weight'];
+    const orderBy =
+      orderByFields[Math.floor(Math.random() * orderByFields.length)];
+    const orderDir = Math.random() < 0.5 ? 'asc' : 'desc'; // Randomly choose sort order
+
+    return db.pokemon.findMany({
+      take: count,
+      skip,
+      orderBy: { [orderBy]: orderDir },
+      include: {
+        forms: true,
+        moves: true,
+        stats: true,
+      },
+    });
+  }
+  const pokemons = await pickRandomPokemons(2);
 
   function IconForStat({ name }: { name: string }) {
     switch (name) {
