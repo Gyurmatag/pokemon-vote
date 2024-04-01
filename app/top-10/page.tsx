@@ -1,6 +1,16 @@
 import { db } from '@/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/utils/authOptions';
+import { redirect } from 'next/navigation';
+import Image from 'next/image';
 
 export default async function Top10() {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect('/auth/signin');
+  }
+
   const topPokemons = await db.pokemon.findMany({
     take: 10,
     where: {
@@ -26,7 +36,12 @@ export default async function Top10() {
       <ul>
         {topPokemons.map((pokemon) => (
           <li key={pokemon.id}>
-            <img src={pokemon.image} alt={pokemon.name} />
+            <Image
+              width={50}
+              height={50}
+              src={pokemon.image}
+              alt={pokemon.name}
+            />
             <h2>{pokemon.name}</h2>
           </li>
         ))}

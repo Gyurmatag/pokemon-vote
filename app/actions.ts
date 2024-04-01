@@ -13,9 +13,23 @@ export async function voteOnPokemon(formData: FormData) {
   if (votedPokemonId) {
     await db.vote.create({
       data: {
-        userId: session!.user!.name!.toString(),
+        userId: session.user.id,
         pokemonId: Number(votedPokemonId),
       },
     });
   }
+}
+
+export async function deleteAllUserVotes() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user) {
+    throw new Error('User not authenticated');
+  }
+
+  await db.vote.deleteMany({
+    where: {
+      userId: session.user.id,
+    },
+  });
 }

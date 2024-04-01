@@ -2,6 +2,11 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaClient } from '@prisma/client';
 
+type SessionProps = {
+  session: any;
+  token: any;
+};
+
 const prisma = new PrismaClient();
 
 export const authOptions = {
@@ -15,4 +20,10 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_SECRET ?? '',
     }),
   ],
+  callbacks: {
+    async session({ session, user }) {
+      session.user.id = user.id;
+      return session;
+    },
+  },
 };

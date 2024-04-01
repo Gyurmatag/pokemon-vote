@@ -3,6 +3,7 @@ const nextConfig = {
   images: {
     domains: [
       'pngimg.com',
+      'raw.githubusercontent.com'
     ],
   },
 };

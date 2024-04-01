@@ -5,6 +5,7 @@ import { Pokemon } from '@prisma/client';
 import { db } from '@/prisma';
 import { voteOnPokemon } from '@/app/actions';
 import { revalidatePath } from 'next/cache';
+import Image from 'next/image';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -45,7 +46,12 @@ export default async function Home() {
             className='pokemon'
           >
             <h2>{pokemon.name}</h2>
-            <img src={pokemon.image} alt={pokemon.name} />
+            <Image
+              width={100}
+              height={100}
+              src={pokemon.image}
+              alt={pokemon.name}
+            />
           </button>
         ))}
       </form>

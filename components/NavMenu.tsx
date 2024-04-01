@@ -23,6 +23,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { ResetVotes } from '@/components/ResetVotes';
 
 export default async function NavMenu() {
   const session = await getServerSession(authOptions);
@@ -84,7 +85,7 @@ export default async function NavMenu() {
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Continue</AlertDialogAction>
+              <ResetVotes />
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
