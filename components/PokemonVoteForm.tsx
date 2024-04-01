@@ -61,7 +61,7 @@ export default async function PokemonVoteForm() {
         ) => (
           <div
             key={pokemon.id}
-            className='m-4 flex h-full w-full flex-col rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 md:w-1/3'
+            className='m-4 flex h-full w-full flex-col rounded-lg border border-gray-200 shadow-md dark:border-gray-700 dark:bg-gray-800 md:w-1/3'
           >
             <div className='flex flex-col items-center p-3 sm:p-4 md:p-6'>
               <Image

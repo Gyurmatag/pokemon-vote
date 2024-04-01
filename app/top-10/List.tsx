@@ -26,7 +26,7 @@ export default async function List() {
       {topPokemons.map((pokemon) => (
         <div
           key={pokemon.id}
-          className='flex flex-col items-center rounded-lg border bg-white p-4 shadow-sm'
+          className='flex flex-col items-center rounded-lg border p-4 shadow-sm'
         >
           <Image
             width={100}
