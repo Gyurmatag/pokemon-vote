@@ -1,8 +1,5 @@
-import { redirect } from 'next/navigation';
 import { Form, Move, Pokemon, Stat } from '@prisma/client';
 import { db } from '@/prisma';
-import { voteOnPokemon } from '@/app/actions';
-import { revalidatePath } from 'next/cache';
 import Image from 'next/image';
 import {
   Accordion,
@@ -10,8 +7,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
 import { Heart, Zap, Shield, Eye, Wind, Star } from 'lucide-react';
+import VoteButton from '@/components/VoteButton';
 
 export default async function PokemonVoteForm() {
   const totalPokemon = await db.pokemon.count();
@@ -25,16 +22,6 @@ export default async function PokemonVoteForm() {
       stats: true,
     },
   });
-
-  const vote = async (formData: FormData) => {
-    'use server';
-    const votedPokemonId = formData.get('vote');
-    if (votedPokemonId) {
-      await voteOnPokemon(formData);
-      revalidatePath('/');
-      redirect('/');
-    }
-  };
 
   function IconForStat(name) {
     switch (name.name) {
@@ -56,7 +43,7 @@ export default async function PokemonVoteForm() {
   }
 
   return (
-    <form action={vote} className='flex w-full flex-wrap justify-center'>
+    <form className='flex w-full flex-wrap justify-center'>
       {pokemons.map(
         (
           pokemon: Pokemon & { forms: Form[]; moves: Move[]; stats: Stat[] }
@@ -82,13 +69,7 @@ export default async function PokemonVoteForm() {
               <span className='text-xs text-gray-500 dark:text-gray-400 sm:text-sm'>
                 Weight: {pokemon.weight} kg
               </span>
-              <Button
-                name='vote'
-                value={pokemon.id}
-                className='mt-3 rounded px-4 py-1 sm:mt-4 sm:px-6 sm:py-2'
-              >
-                Vote
-              </Button>
+              <VoteButton pokemonId={pokemon.id} />
             </div>
             <div className='border-t border-gray-200 dark:border-gray-700'>
               <h3 className='px-5 pb-2 pt-4 text-lg font-semibold text-gray-900 dark:text-white'>

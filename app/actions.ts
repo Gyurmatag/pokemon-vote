@@ -4,20 +4,17 @@ import { db } from '@/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 
-export async function voteOnPokemon(formData: FormData) {
+export async function voteOnPokemon(pokemonId: number) {
   'use server';
 
   const session = await getServerSession(authOptions);
 
-  const votedPokemonId = formData.get('vote');
-  if (votedPokemonId) {
-    await db.vote.create({
-      data: {
-        userId: session.user.id,
-        pokemonId: Number(votedPokemonId),
-      },
-    });
-  }
+  await db.vote.create({
+    data: {
+      userId: session.user.id,
+      pokemonId: Number(pokemonId),
+    },
+  });
 }
 
 export async function deleteAllUserVotes() {
