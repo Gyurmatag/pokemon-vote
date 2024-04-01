@@ -9,7 +9,7 @@ export async function voteOnPokemon(pokemonId: number) {
 
   await db.vote.create({
     data: {
-      userId: session.user.id,
+      userId: session!.user.id,
       pokemonId: Number(pokemonId),
     },
   });
