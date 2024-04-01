@@ -3,6 +3,26 @@ import { authOptions } from '@/utils/authOptions';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 export default async function NavMenu() {
   const session = await getServerSession(authOptions);
@@ -26,15 +46,48 @@ export default async function NavMenu() {
       </div>
       <nav className='flex items-center justify-center space-x-7'>
         <Link href='/top-10'>Top 10</Link>
-        <Avatar>
-          <AvatarImage
-            src={session!.user!.image || ''}
-            alt='User Profile Picture'
-          />
-          <AvatarFallback>
-            <button className='h-9 w-9 rounded-full bg-gradient-to-r from-green-500 to-blue-500'></button>
-          </AvatarFallback>
-        </Avatar>
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger className='cursor-pointer' asChild>
+              <Avatar>
+                <AvatarImage
+                  src={session!.user?.image || ''}
+                  alt='User Profile Picture'
+                />
+                <AvatarFallback>
+                  <button className='h-9 w-9 rounded-full bg-gradient-to-r from-green-500 to-blue-500'></button>
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuLabel>{session!.user?.email}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  asChild
+                  className='flex w-full cursor-pointer'
+                >
+                  <div className='flex w-full'>
+                    <AlertDialogTrigger>Reset my Votes</AlertDialogTrigger>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently removes your
+                Pokemon votes from our database.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </nav>
     </header>
   );
