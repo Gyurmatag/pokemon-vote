@@ -7,6 +7,7 @@ import { authOptions } from '@/utils/authOptions';
 import NavMenu from '@/components/NavMenu';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
+import { VoteProvider } from "@/contexts/VoteContext";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,16 +27,18 @@ export default async function RootLayout({
     <html lang='en'>
       <SessionProvider session={session}>
         <body className={inter.className}>
-          <ThemeProvider
+        <ThemeProvider
             attribute='class'
             defaultTheme='system'
             enableSystem
             disableTransitionOnChange
-          >
+        >
+          <VoteProvider>
             {session && <NavMenu />}
             {children}
             <Toaster />
-          </ThemeProvider>
+          </VoteProvider>
+        </ThemeProvider>
         </body>
       </SessionProvider>
     </html>
